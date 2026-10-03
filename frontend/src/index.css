@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens are the four colours fixed in the kickoff deck (Rashi Agarwal,
+ * frontend/src/App.css) and mirrored in tailwind.config.js:
+ *   surface #0f172a · card #1e293b · text #f8fafc · accent #38bdf8
+ * #f8fafc on #0f172a is ~17:1 contrast, past WCAG AAA (7:1).
+ */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-surface text-text font-sans antialiased;
+  }
+
+  /* Accessibility: a focus ring that is always visible against the surface. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-surface;
+  }
+
+  /* Respect the OS "reduce motion" setting — an accessibility requirement, not
+     a preference. Animation is decorative here, so it can be removed entirely. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Kept as a class name so it matches `.translation-box` in the kickoff CSS. */
+  .translation-box {
+    @apply rounded-xl border-2 border-accent bg-card p-5 text-2xl;
+  }
+
+  .panel {
+    @apply rounded-xl border border-line bg-card;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5
+           text-sm font-semibold transition-colors
+           disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent text-surface hover:bg-sky-300;
+  }
+
+  .btn-ghost {
+    @apply btn border border-line text-text hover:border-accent hover:text-accent;
+  }
+
+  .stat-label {
+    @apply text-[11px] font-semibold uppercase tracking-wider text-muted;
+  }
+}
+
+/* Screen-reader-only, for live-region announcements. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
